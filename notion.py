@@ -21,7 +21,7 @@ def calculo_acao():
 
     # Extrai o valor de mercado atual do primeiro resultado
     regular_market_price = data['results'][0]['regularMarketPrice']
-    print(regular_market_price)
+
     return regular_market_price
 
 

@@ -1,28 +1,19 @@
 import requests
-import json
-
 """
-Busca e imprime os 10 registros mais recentes da taxa CDI usando a API do Banco Central.
+Consulta o valor atual do ativo a partir da API da Brapi.
 
-Observação:
-    A API do BCB fornece os dados em formato JSON. Se a resposta estiver vazia,
-    uma mensagem será exibida.
+Retorna:
+    float: O valor de mercado atual (regularMarketPrice) do ativo.
 """
-url = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.12/dados/ultimos/10?formato=json"
-try:
-    response = requests.get(url)
-    response.raise_for_status()
-except requests.HTTPError:
-    print("Dado não encontrado, continuando.")
-    dado = None
-except Exception as exc:
-    print("Erro, parando a execução.")
-    raise exc
-else:
-    if response.text.strip() == "":
-        print("Resposta vazia!")
-        dado = None
-    else:
-        dado = json.loads(response.text)
-    
-print(dado)
+# Nome do ativo; pode ser passado via parâmetro se necessário.
+indice = 'BOVA11'
+token = "e31ZprPcuG4qM1pWYHmeEp"  # Substitua pelo seu token válido
+
+# Monta a URL para consulta
+url = f"https://brapi.dev/api/quote/{indice}?token={token}"
+response = requests.get(url)
+data = response.json()
+
+# Extrai o valor de mercado atual do primeiro resultado
+regular_market_price = data['results'][0]['regularMarketPrice']
+print(regular_market_price)
