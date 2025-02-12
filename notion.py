@@ -111,7 +111,7 @@ def pegar_cdi_dia_anterior():
         else:
             dado = json.loads(response.text)
         
-    print(dado)
+    return dado[0]['valor']
 
 
 # # Exemplo de chamadas:

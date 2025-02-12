@@ -1,19 +1,27 @@
-import requests
-"""
-Consulta o valor atual do ativo a partir da API da Brapi.
+import math
 
-Retorna:
-    float: O valor de mercado atual (regularMarketPrice) do ativo.
-"""
-# Nome do ativo; pode ser passado via parâmetro se necessário.
-indice = 'BOVA11'
-token = "e31ZprPcuG4qM1pWYHmeEp"  # Substitua pelo seu token válido
+def truncar_excel(d3, i1, casas_decimais=15):
+    """
+    Replica a função do Excel: =TRUNCAR(1+(D3*$I$1);15)
+    
+    Parâmetros:
+        d3             - valor correspondente à célula D3
+        i1             - valor correspondente à célula I1
+        casas_decimais - número de casas decimais para truncar (padrão é 15)
+        
+    Retorna:
+      O resultado de 1 + (d3 * i1) truncado para 'casas_decimais' casas decimais.
+    """
+    # Calcula a expressão: 1 + (D3 * I1)
+    valor = 1 + ((d3/100) * i1)
+    
+    # Calcula o fator de multiplicação para preservar as casas decimais
+    fator = 10 ** casas_decimais
+    
+    # Utiliza math.trunc para remover os dígitos extras
+    valor_truncado = math.trunc(valor * fator) / fator
+    return valor_truncado
 
-# Monta a URL para consulta
-url = f"https://brapi.dev/api/quote/{indice}?token={token}"
-response = requests.get(url)
-data = response.json()
-
-# Extrai o valor de mercado atual do primeiro resultado
-regular_market_price = data['results'][0]['regularMarketPrice']
-print(regular_market_price)
+# Exemplo de uso:
+resultado = truncar_excel(2.3456789, 3.1415926)
+print(resultado)
