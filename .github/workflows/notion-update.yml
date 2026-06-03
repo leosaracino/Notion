@@ -1,0 +1,27 @@
+name: Atualizar Portfolio Notion
+
+on:
+  schedule:
+    # 22h BRT = 01h UTC, segunda a sexta
+    - cron: '0 1 * * 2-6'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - run: pip install -r requirements.txt
+
+      - name: Rodar automacao
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          DATABASE_ID:  ${{ secrets.DATABASE_ID }}
+          BRAPI_TOKEN:  ${{ secrets.BRAPI_TOKEN }}
+        run: python notion.py
