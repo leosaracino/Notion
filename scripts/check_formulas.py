@@ -1,12 +1,9 @@
 """Mostra expressao das formulas no database."""
-from dotenv import load_dotenv
-load_dotenv()
-import os
-from notion_client import Client
 
-n = Client(auth=os.getenv("NOTION_TOKEN"))
-DS_ID = "18f30ca2-d8ff-812f-a1da-000bac12114a"
-ds = n.data_sources.retrieve(data_source_id=DS_ID)
+from common import DATA_SOURCE_ID, notion_client
+
+n = notion_client()
+ds = n.data_sources.retrieve(data_source_id=DATA_SOURCE_ID)
 
 for name, prop in ds["properties"].items():
     if prop["type"] == "formula":
@@ -15,7 +12,7 @@ for name, prop in ds["properties"].items():
         print(f"  {expr}\n")
 
 # Pega um card real pra ver o valor calculado
-res = n.data_sources.query(data_source_id=DS_ID)
+res = n.data_sources.query(data_source_id=DATA_SOURCE_ID)
 for p in res.get("results", [])[:1]:
     print("=== Exemplo (primeiro card) ===")
     for name in ("Total", "Total compra", "Valor Aplicado", "Quantidade", "Valor Atual"):

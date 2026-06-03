@@ -2,5 +2,14 @@
 __pycache__/
 *.pyc
 .venv/
+venv/
+env/
 Notion/
 .claude-flow/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+.coverage

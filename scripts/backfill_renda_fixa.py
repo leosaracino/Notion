@@ -12,21 +12,15 @@ import datetime
 import sys
 from decimal import Decimal
 
-from dotenv import load_dotenv
-load_dotenv()
-import os
-from notion_client import Client
-
-# Reusa logica do modulo principal
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from notion import (  # type: ignore
+from common import notion_client
+from notion_portfolio.automation import (
     calcular_retroativo_cdi,
     formatar_taxa,
     calcular_ir_iof,
     _ler_valor_aplicado,
 )
 
-n = Client(auth=os.getenv("NOTION_TOKEN"))
+n = notion_client()
 
 
 def backfill(page_id: str) -> None:

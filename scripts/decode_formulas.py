@@ -1,15 +1,12 @@
 import sys
-from dotenv import load_dotenv
-load_dotenv()
-import os
-from notion_client import Client
+
+from common import DATA_SOURCE_ID, notion_client
 
 sys.stdout.reconfigure(encoding="utf-8", line_buffering=True)
 
 try:
-    n = Client(auth=os.getenv("NOTION_TOKEN"))
-    DS_ID = "18f30ca2-d8ff-812f-a1da-000bac12114a"
-    res = n.data_sources.query(data_source_id=DS_ID)
+    n = notion_client()
+    res = n.data_sources.query(data_source_id=DATA_SOURCE_ID)
     print(f"Total cards: {len(res.get('results', []))}", flush=True)
     for p in res.get("results", []):
         props = p["properties"]

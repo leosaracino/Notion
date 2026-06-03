@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "notion-portfolio"
+version = "0.1.0"
+description = "Automacao Python para atualizar portfolio de investimentos no Notion."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "notion-client>=2.2.0",
+    "requests>=2.32.0",
+    "anbima-calendar>=0.1.1",
+    "python-dotenv>=1.0.0",
+    "yfinance>=0.2.40",
+]
+
+[project.scripts]
+notion-portfolio = "notion_portfolio.automation:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]

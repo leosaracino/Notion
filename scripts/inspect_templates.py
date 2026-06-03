@@ -1,12 +1,9 @@
 """Tenta encontrar templates ja criados no database."""
-from dotenv import load_dotenv
-load_dotenv()
-import os, json
-from notion_client import Client
 
-n = Client(auth=os.getenv("NOTION_TOKEN"))
-DB_ID = os.getenv("DATABASE_ID")
-DS_ID = "18f30ca2-d8ff-812f-a1da-000bac12114a"
+from common import DATA_SOURCE_ID, notion_client, required_env
+
+n = notion_client()
+DB_ID = required_env("DATABASE_ID")
 
 # 1) Bloco pai - pode ter sub-paginas/templates como filhos
 db = n.databases.retrieve(database_id=DB_ID)
@@ -43,7 +40,7 @@ except Exception as e:
 
 # 4) Query com archived=True para pegar tudo
 print(f"\n=== Query data_source completo ===")
-res = n.data_sources.query(data_source_id=DS_ID)
+res = n.data_sources.query(data_source_id=DATA_SOURCE_ID)
 for p in res.get("results", []):
     title_prop = p["properties"].get("Ativo", {}).get("title", [])
     title = "".join(t.get("plain_text", "") for t in title_prop) or "(sem titulo)"

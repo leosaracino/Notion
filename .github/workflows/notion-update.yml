@@ -17,11 +17,12 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
 
-      - run: pip install -r requirements.txt
+      - run: pip install -e .
 
       - name: Rodar automacao
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           DATABASE_ID:  ${{ secrets.DATABASE_ID }}
+          DATA_SOURCE_ID: ${{ secrets.DATA_SOURCE_ID }}
           BRAPI_TOKEN:  ${{ secrets.BRAPI_TOKEN }}
-        run: python notion.py
+        run: python -m notion_portfolio

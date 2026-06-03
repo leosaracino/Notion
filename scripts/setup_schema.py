@@ -1,13 +1,10 @@
 """Aplica mudancas de schema no database Ativos via API Notion."""
-from dotenv import load_dotenv
-import os
-load_dotenv()
-from notion_client import Client
 
-n = Client(auth=os.getenv("NOTION_TOKEN"))
-DS_ID = "18f30ca2-d8ff-812f-a1da-000bac12114a"
+from common import DATA_SOURCE_ID, notion_client
 
-ds = n.data_sources.retrieve(data_source_id=DS_ID)
+n = notion_client()
+
+ds = n.data_sources.retrieve(data_source_id=DATA_SOURCE_ID)
 tipo_opts = ds["properties"]["Tipo"]["select"]["options"]
 
 if "ESPP" not in {o["name"] for o in tipo_opts}:
@@ -24,7 +21,7 @@ updates = {
     "Proxima Compra": {"date": {}},
 }
 
-result = n.data_sources.update(data_source_id=DS_ID, properties=updates)
+result = n.data_sources.update(data_source_id=DATA_SOURCE_ID, properties=updates)
 print("Schema atualizado")
 for name in updates:
     if name in result.get("properties", {}):

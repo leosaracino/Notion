@@ -1,13 +1,9 @@
 """Mostra estado completo do database Ativos."""
-from dotenv import load_dotenv
-load_dotenv()
-import os
-from notion_client import Client
 
-n = Client(auth=os.getenv("NOTION_TOKEN"))
-DS_ID = "18f30ca2-d8ff-812f-a1da-000bac12114a"
+from common import DATA_SOURCE_ID, notion_client
 
-ds = n.data_sources.retrieve(data_source_id=DS_ID)
+n = notion_client()
+ds = n.data_sources.retrieve(data_source_id=DATA_SOURCE_ID)
 
 print("=" * 60)
 print("ESTADO ATUAL DO DATABASE 'Ativos'")
