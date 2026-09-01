@@ -1,5 +1,2 @@
-notion-client>=2.2.0
 requests>=2.32.0
-anbima-calendar>=0.1.1
 python-dotenv>=1.0.0
-yfinance>=0.2.40

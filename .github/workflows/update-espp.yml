@@ -1,0 +1,40 @@
+name: Atualizar investimentos no Notion
+
+on:
+  schedule:
+    # 3x por dia em dia util: 10h, 14h e 18h BRT (UTC-3).
+    - cron: '0 13,17,21 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Só calcular e mostrar, sem gravar no Notion'
+        type: boolean
+        default: false
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      - name: Rodar testes
+        run: |
+          pip install pytest
+          pytest -q
+
+      - name: Rodar a esteira
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          ESPP_DATABASE_ID: ${{ secrets.ESPP_DATABASE_ID }}
+          ESPP_PAGE_ID: ${{ secrets.ESPP_PAGE_ID }}
+        run: python -m portfolio ${{ inputs.dry_run && '--dry-run' || '' }}
