@@ -80,10 +80,22 @@ desconto de 15% nesse caso, a formula de `Preço de mercado na data` olha o
 
 ### Resumo no topo da pagina
 
-Os totais sao propriedades da propria pagina ESPP, calculados por rollup:
-`Total descontado`, `Total corrigido`, `Total investido (USD)`, `Ações hoje`,
-`Valor atual (USD)` e `(BRL)`, mais `Lucro total` e `Lucro corrigido total`
-(formulas sobre os rollups).
+Os totais sao propriedades da propria pagina ESPP, calculados por rollup sobre a
+relacao `Lançamentos`:
+
+| Propriedade | Soma qual coluna dos lancamentos |
+|---|---|
+| `Total Investido` | `Valor descontado (BRL)` — reais descontados da folha |
+| `Total corrigido` | `Valor descontado corrigido (BRL)` |
+| `Total investido` | `Valor investido (USD)` — dolares que viraram acao |
+| `Ações hoje` | `Ações compradas` |
+| `Valor atual (USD)` / `(BRL)` | `Valor atual` |
+| `Lucro total (BRL)` | formula: `Valor atual (BRL) − Total Investido` |
+| `Lucro corrigido` | formula: `Valor atual (BRL) − Total corrigido` |
+
+Atencao: `Total Investido` (BRL) e `Total investido` (USD) diferem so por uma
+maiuscula e sao moedas diferentes. Vale renomear para `Total descontado (BRL)` e
+`Total investido (USD)` quando der.
 
 Essas propriedades vivem na database `Investimentos` (onde a pagina ESPP e uma
 linha) — no Notion nao existe propriedade de uma pagina so. Na pratica nao
